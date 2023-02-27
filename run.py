@@ -1,3 +1,22 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
+import random
+
+# Solution grid that the user can not see
+grid = [
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0]
+    ]
+
+gird_display = [
+    [-1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1],
+]
