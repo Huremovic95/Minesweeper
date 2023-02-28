@@ -44,6 +44,8 @@ def add_mines():
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.")
         add_mines()
+    
+    
 
 
 def main():
