@@ -28,7 +28,7 @@ gird_display = [
 ]
 
 
-def add_mines():
+def ask_mines():
     """
     converts all strings into integers gives the user an option
     to choose the amount of mines. if the amount of mines is 
@@ -36,20 +36,31 @@ def add_mines():
     and Raises ValueError if strings cannot be converted into int.
     """
     num_mines = int(input("Choose how many mines you want. choose a number between 5 and 20: \n"))
+
     try:
         if num_mines > 20 or num_mines < 5:
             print("Please choose a number between 5 and 20")
-            add_mines()
+            ask_mines()
     #copied from love sandwiches project
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.")
-        add_mines()
-    
-    
+        return False
 
+    return add_mines(num_mines)
+
+
+def add_mines(mines):
+    
+    for num in range(mines):
+        # x axis/horizontal
+        x = random.randint(0,6)
+        # y axis/vertical
+        y = random.randint(0,6)
+        grid[x][y] = MINE  # MINE = 1
+        
 
 def main():
-    add_mines()
+    ask_mines()
 
 
 main()
