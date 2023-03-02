@@ -17,7 +17,7 @@ grid = [
     ]
 
 # Grid that gets displayed to the user
-gird_display = [
+grid_display = [
     [-1, -1, -1, -1, -1, -1, -1],
     [-1, -1, -1, -1, -1, -1, -1],
     [-1, -1, -1, -1, -1, -1, -1],
@@ -40,9 +40,9 @@ def ask_mines():
     try:
         if num_mines > 20 or num_mines < 5:
             print("Please choose a number between 5 and 20")
-            ask_mines()
+            return False
 
-    """copied from love sandwiches project"""
+    # copied from lovesandwiches project
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.")
         return False
@@ -56,20 +56,35 @@ def add_mines(mines):
     number of mines to the grid. also checks if the
     space is not already occupied by a mine.
     """
-    for num in range(mines):
-        x = random.randint(0,6) # x axis/horizontal
-        y = random.randint(0,6) # y axis/vertical
+    for num in range(mines + 1):
+        x = random.randint(0, 6)  # x axis/horizontal
+        y = random.randint(0, 6)  # y axis/vertical
         if grid[x][y] == 0:
             grid[x][y] = MINE  # MINE = 1
+    show_grid()
 
 
 def show_grid():
+    """
+    Shows the grid if something is not yet shown the user sees a - symbol
+    copied from
+    https://www.youtube.com/watch?v=XTT8mXwIGpQ
+    https://github.com/wynand1004/Projects/blob/master/Minesweeper/minesweeper.py
+    """
+    symbols = {-2: "F", -1: "-"}
     for row in range(0, 7):
         for col in range(0, 7):
-        
+            value = grid_display[row][col]
+            if value in symbols:
+                symbol = symbols[value]
+            else:
+                symbol = str(value)
+            print(f"{symbol} ", end='')
+        print("")
+
 
 def main():
-    print("Welcome to a game of Minesweeper")
+    # runs the functions
     ask_mines()
 
 
