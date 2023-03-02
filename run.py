@@ -56,15 +56,20 @@ def add_mines(mines):
     number of mines to the grid. also checks if the
     space is not already occupied by a mine.
     """
-
     for num in range(mines):
         x = random.randint(0,6) # x axis/horizontal
         y = random.randint(0,6) # y axis/vertical
         if grid[x][y] == 0:
             grid[x][y] = MINE  # MINE = 1
+
+
+def show_grid():
+    for row in range(0, 7):
+        for col in range(0, 7):
         
 
 def main():
+    print("Welcome to a game of Minesweeper")
     ask_mines()
 
 
