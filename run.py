@@ -83,13 +83,49 @@ def show_grid():
 
 
 def ask_coordinates():
-    horizontal = input("Press f to set a flag or ")
+    
+    row = input("Press f to set a flag or guess a row between 1 and 7: ")
+    row = row.lower()
+    if row == "f":
+        # flag funtion
+        print("setting a flag")
+    else:
+        row = int(row)
+        print(row)
+
+    try:
+        if row > 7 or row < 1:
+            print("Please choose a number between 1 and 7")
+            return False
+
+    # copied from lovesandwiches project
+    except ValueError as e:
+        print(f"Invalid data: {e}, please try again.")
+        return False
+    
+    return true
+
+    column = int(input("guess a column between 1 and 7: "))
+
+    try:
+        if column > 7 or column < 1:
+            print("Please choose a number between 1 and 7")
+            return False
+
+    # copied from lovesandwiches project
+    except ValueError as e:
+        print(f"Invalid data: {e}, please try again.")
+        return False
+    
+    return true
+    
 
 
 def main():
     # runs the functions
     ask_mines()
     show_grid()
+    ask_coordinates()
 
 
 main()
