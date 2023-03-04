@@ -2,7 +2,7 @@ import random
 
 # Constant variables for readability
 EMPTY = 0
-MINE = 1
+MINE = 9
 UNKNOWN = -1
 
 # Solution grid that the user can not see
@@ -60,8 +60,7 @@ def add_mines(mines):
         x = random.randint(0, 6)  # x axis/horizontal
         y = random.randint(0, 6)  # y axis/vertical
         if grid[x][y] == 0:
-            grid[x][y] = MINE  # MINE = 1
-    show_grid()
+            grid[x][y] = MINE  # MINE = 9
 
 
 def show_grid():
@@ -83,9 +82,14 @@ def show_grid():
         print("")
 
 
+def ask_coordinates():
+    horizontal = input("Press f to set a flag or ")
+
+
 def main():
     # runs the functions
     ask_mines()
+    show_grid()
 
 
 main()
