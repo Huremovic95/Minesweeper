@@ -102,8 +102,6 @@ def ask_coordinates():
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.")
         return False
-    
-    return true
 
     column = int(input("guess a column between 1 and 7: "))
 
@@ -116,9 +114,6 @@ def ask_coordinates():
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.")
         return False
-    
-    return true
-    
 
 
 def main():
