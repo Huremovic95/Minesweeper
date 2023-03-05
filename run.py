@@ -50,20 +50,19 @@ def ask_mines():
             continue
         else:
             # num_mines successfully parsed, and we're happy with its value.
+            return add_mines(num_mines)
             break
-
-    return add_mines(num_mines)
 
 
 def add_mines(mines):
     """
-    Randomly places user input (between 5 and 20)
+    Randomly places user input (between 5 and 15)
     number of mines to the grid. also checks if the
     space is not already occupied by a mine.
     """
     counter = 0
     if counter < mines:
-        for counter in range(mines):
+        for num in range(mines):
             x = random.randint(0, 6)  # x axis/horizontal
             y = random.randint(0, 6)  # y axis/vertical
             if grid[x][y] == 0:
@@ -143,7 +142,9 @@ def cell_activated(row, column):
     """
     Checks if the user row and column input hit a mine.
     """
-    if grid[row][column] == MINE:
+    if grid[row][column] == FLAG:
+        print("There is a flag here")
+    elif grid[row][column] == MINE:
         print("Gameover! You hit a mine!!!")
 
 
