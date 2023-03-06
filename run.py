@@ -18,7 +18,7 @@ grid = [
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0]
-    ]
+]
 
 # Grid that gets displayed to the user
 grid_display = [
@@ -102,7 +102,7 @@ def ask_coordinates():
     global setting_flag
     while True:
         try:
-            row = input("Press f to set a flag or guess a row between 1 and 7: ")
+            row = input("Press f to set/remove a flag or guess a row between 1 and 7: ")
             row = row.lower()
             if row == "f":
                 # flag funtion
@@ -161,11 +161,12 @@ def set_flag():
     Gives the user a option to set a flag where they think there is a mine,
     The grid displays a F that stands for flag for better user experience.
     The user gets asked which row and column they want to place the flag.
+    If there is a flag the user will get rid off it the same way.
     """
     print("setting a flag! ")
     while True:
         try:
-            row = int(input("The row where you want to put a flag (1-7): "))-1
+            row = int(input("The row where you want to put/remove a flag (1-7): "))-1
 
             if row > 6 or row < 0:
                 print("Please choose a number between 1 and 7")
@@ -182,7 +183,7 @@ def set_flag():
 
     while True:
         try:
-            col_flag = int(input("The column where you want to put a flag (1-7): "))-1
+            col_flag = int(input("The column where you want to put/remove a flag (1-7): "))-1
                 
             if col_flag > 6 or col_flag < 0:
                 print("Please choose a number between 1 and 7")
@@ -197,7 +198,13 @@ def set_flag():
             # column successfully parsed, and we're happy with its value.
             break
 
-    grid_display[row][col_flag] = FLAG
+    if grid_display[row][col_flag] == UNKNOWN:
+        grid_display[row][col_flag] = FLAG
+    elif grid_display[row][col_flag] == FLAG:
+        grid_display[row][col_flag] = UNKNOWN
+    else:
+        print("You cant put a flag here")
+    
     global setting_flag
     setting_flag = False
     show_grid()
