@@ -6,6 +6,9 @@ MINE = 9
 UNKNOWN = -1
 FLAG = 1
 
+# variables
+setting_flag = 0  # inactive
+
 # Solution grid that the user can not see
 grid = [
     [0, 0, 0, 0, 0, 0, 0],
@@ -80,7 +83,7 @@ def show_grid():
     symbols = {1: "F", -1: "-"}
     for row in range(0, 7):
         for col in range(0, 7):
-            value = grid[row][col]
+            value = grid_display[row][col]
             if value in symbols:
                 symbol = symbols[value]
             else:
@@ -102,7 +105,8 @@ def ask_coordinates():
             row = row.lower()
             if row == "f":
                 # flag funtion
-                print("setting a flag")
+                set_flag()
+                setting_flag = 1
                 break
             else:
                 row = int(row)-1
@@ -111,29 +115,32 @@ def ask_coordinates():
                 print("Please choose a number between 1 and 7")
                 continue
                     
-            # copied from lovesandwiches project
-        except ValueError as e:
-            print(f"Invalid data: {e}, please try again.")
-            continue
-
-        else:
-            break
-        
-    while True:
-        try:
-            column = int(input("guess a column between 1 and 7: "))-1
-            
-            if column > 6 or column < 0:
-                print("Please choose a number between 1 and 7")
-                continue
-                
         # copied from lovesandwiches project
         except ValueError as e:
             print(f"Invalid data: {e}, please try again.")
             continue
 
         else:
+            # row successfully parsed, and we're happy with its value.
             break
+
+    if setting_flag == 0:    
+        while True:
+            try:
+                column = int(input("guess a column between 1 and 7: "))-1
+                
+                if column > 6 or column < 0:
+                    print("Please choose a number between 1 and 7")
+                    continue
+                    
+            # copied from lovesandwiches project
+            except ValueError as e:
+                print(f"Invalid data: {e}, please try again.")
+                continue
+
+            else:
+                # column successfully parsed, and we're happy with its value.
+                break
 
     cell_activated(row, column)
 
@@ -146,6 +153,46 @@ def cell_activated(row, column):
         print("There is a flag here")
     elif grid[row][column] == MINE:
         print("Gameover! You hit a mine!!!")
+
+
+def set_flag():
+    print("setting a flag! ")
+    while True:
+        try:
+            row = int(input("The row where you want to put a flag (1-7): "))-1
+
+            if row > 6 or row < 0:
+                print("Please choose a number between 1 and 7")
+                continue
+
+        # copied from lovesandwiches project
+        except ValueError as e:
+            print(f"Invalid data: {e}, please try again.")
+            continue
+
+        else:
+            # row successfully parsed, and we're happy with its value.
+            break
+
+        while True:
+            try:
+                column = int(input("The column where you want to put a flag (1-7): "))-1
+                
+                if column > 6 or column < 0:
+                    print("Please choose a number between 1 and 7")
+                    continue
+                    
+            # copied from lovesandwiches project
+            except ValueError as e:
+                print(f"Invalid data: {e}, please try again.")
+                continue
+
+            else:
+                # column successfully parsed, and we're happy with its value.
+                break
+
+    grid_display[row][column] = FLAG
+    setting_flag = 0
 
 
 def main():
