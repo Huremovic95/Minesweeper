@@ -149,27 +149,12 @@ def ask_coordinates():
 def cell_activated(row, column):
     """
     Checks if the user row and column input hit a flag or a mine.
-    if it hit a flag gives the user the option to remove it.
-    if it hit a mine game_over function gets called
+    if it hit a flag quick_remove function gets called.
+    if it hit a mine game_over function gets called.
     """
     if grid_display[row][column] == FLAG:
         print("There is a flag here!")
-        while True:
-            try:
-                remove_flag = input("Do you want to remove the flag? y/n: ")
-                remove_flag.lower()
-
-                if remove_flag == 'y':
-                    quick_remove(row, column)
-                    break
-                elif remove_flag == 'n':
-                    ask_coordinates()
-                    break
-            
-            # copied from lovesandwiches project
-            except ValueError as e:
-                print(f"Invalid data: {e}, please try again.")
-                continue
+        quick_remove(row, column)
 
     elif grid[row][column] == MINE:
         print("Gameover! You hit a mine!!!")
@@ -180,12 +165,12 @@ def set_flag():
     Gives the user a option to set a flag where they think there is a mine,
     The grid displays a F that stands for flag for better user experience.
     The user gets asked which row and column they want to place the flag.
-    If there is a flag the user will get rid off it the same way.
+    If there is a flag the user will go to the quick-remove function.
     """
     print("setting a flag! ")
     while True:
         try:
-            row = int(input("The row where you want to put/remove a flag (1-7): "))-1
+            row = int(input("The row where you want to put a flag (1-7): "))-1
 
             if row > 6 or row < 0:
                 print("Please choose a number between 1 and 7")
@@ -202,7 +187,7 @@ def set_flag():
 
     while True:
         try:
-            col_flag = int(input("The column where you want to put/remove a flag (1-7): "))-1
+            col_flag = int(input("The column where you want to put a flag (1-7): "))-1
                 
             if col_flag > 6 or col_flag < 0:
                 print("Please choose a number between 1 and 7")
@@ -220,7 +205,8 @@ def set_flag():
     if grid_display[row][col_flag] == UNKNOWN:
         grid_display[row][col_flag] = FLAG
     elif grid_display[row][col_flag] == FLAG:
-        grid_display[row][col_flag] = UNKNOWN
+        print("There is a flag here")
+        quick_remove(row, col_flag)
     else:
         print("You can't put a flag here")
     
@@ -231,7 +217,26 @@ def set_flag():
 
 
 def quick_remove(row, column):
-    grid_display[row][column] = UNKNOWN
+    """
+    gives the user the option to remove a flag they hit. also gives 
+    the user not to remove a flag and just goes further with the game
+    """
+    while True:
+        try:
+            remove_flag = input("Do you want to remove the flag? y/n: ")
+            remove_flag.lower()
+
+            if remove_flag == 'y':
+                grid_display[row][column] = UNKNOWN
+                break
+            elif remove_flag == 'n':
+                break
+                
+        # copied from lovesandwiches project
+        except ValueError as e:
+            print(f"Invalid data: {e}, please try again.")
+            continue
+
     show_grid()    
     ask_coordinates()
 
