@@ -148,10 +148,29 @@ def ask_coordinates():
 
 def cell_activated(row, column):
     """
-    Checks if the user row and column input hit a mine.
+    Checks if the user row and column input hit a flag or a mine.
+    if it hit a flag gives the user the option to remove it.
+    if it hit a mine game_over function gets called
     """
     if grid_display[row][column] == FLAG:
-        print("There is a flag here")
+        print("There is a flag here!")
+        while True:
+            try:
+                remove_flag = input("Do you want to remove the flag? y/n: ")
+                remove_flag.lower()
+
+                if remove_flag == 'y':
+                    quick_remove(row, column)
+                    break
+                elif remove_flag == 'n':
+                    ask_coordinates()
+                    break
+            
+            # copied from lovesandwiches project
+            except ValueError as e:
+                print(f"Invalid data: {e}, please try again.")
+                continue
+
     elif grid[row][column] == MINE:
         print("Gameover! You hit a mine!!!")
 
@@ -203,11 +222,17 @@ def set_flag():
     elif grid_display[row][col_flag] == FLAG:
         grid_display[row][col_flag] = UNKNOWN
     else:
-        print("You cant put a flag here")
+        print("You can't put a flag here")
     
     global setting_flag
     setting_flag = False
     show_grid()
+    ask_coordinates()
+
+
+def quick_remove(row, column):
+    grid_display[row][column] = UNKNOWN
+    show_grid()    
     ask_coordinates()
 
 
