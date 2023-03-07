@@ -92,7 +92,17 @@ def show_grid():
 
 
 
-
+def show_sol():
+    symbols = {1: "F", -1: "-"}
+    for row in range(0, 7):
+        for col in range(0, 7):
+            value = grid[row][col]
+            if value in symbols:
+                symbol = symbols[value]
+            else:
+                symbol = str(value)
+            print(f"{symbol} ", end='')
+        print("")
 
 
 def ask_coordinates():
