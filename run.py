@@ -91,9 +91,11 @@ def show_grid():
         print("")
 
 
-
-def show_sol():
-    symbols = {1: "F", -1: "-"}
+def show_solution():
+    """
+    Shows the user the grid with the solution/location of the mines
+    """
+    symbols = {9: "*"}
     for row in range(0, 7):
         for col in range(0, 7):
             value = grid[row][col]
@@ -170,6 +172,7 @@ def cell_activated(row, column):
         quick_remove(row, column)
     elif grid[row][column] == MINE:
         print("Gameover! You hit a mine!!!")
+        game_over()
     else:
         grid_display[row][column] = check_around(row, column)
         show_grid()
@@ -180,13 +183,12 @@ def check_around(row, col):
     for row in range(len(grid)):
         for col in range(len(grid[0])):
             count = 0
-            for a in (-1, 1, 1):
-                for b in (-1, 1, 1):
-                    if (0 <= row+a < len(grid) and 
-                        0 <= col+b < len(grid[0]) and 
-                        grid[row+a][col+b] == MINE): 
-                        count = count + 1
+            for a in (-1, 0, 1):
+                for b in (-1, 0, 1):
+                    if (0 <= row+a < len(grid) and 0 <= col+b < len(grid[0]) and grid[row+a][col+b] == 9):
+                        count += 1
             return count
+
 
 def set_flag():
     """
@@ -249,6 +251,9 @@ def quick_remove(row, column):
     gives the user the option to remove a flag they hit. also gives 
     the user not to remove a flag and just goes further with the game.
     """
+    global setting_flag
+    setting_flag = True
+
     while True:
         try:
             remove_flag = input("Do you want to remove the flag? y/n: ")
@@ -264,16 +269,39 @@ def quick_remove(row, column):
         except ValueError as e:
             print(f"Invalid data: {e}, please try again.")
             continue
-
+    
+    setting_flag = False
     show_grid()    
     ask_coordinates()
+
+
+def game_over():
+    """
+    When the user hits a mine this function activates asking
+    the user if they want to play a new game or not.
+    """
+    show_solution()
+    while True:
+        try:
+            play_again = input("Do you want to play again? y/n: ")
+
+            if play_again == 'y':
+                main()
+                break
+            elif play_again == 'n':
+                break
+                
+        # copied from lovesandwiches project
+        except ValueError as e:
+            print(f"Invalid data: {e}, please try again.")
+            continue
 
 
 def main():
     # runs the functions
     ask_mines()
     show_grid()
-    show_sol()
+    show_solution()
     ask_coordinates()
 
 
