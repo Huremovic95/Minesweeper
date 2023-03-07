@@ -53,7 +53,7 @@ def ask_mines():
             continue
         else:
             # num_mines successfully parsed, and we're happy with its value.
-            return add_mines(num_mines)
+            add_mines(num_mines)
             break
 
 
@@ -64,13 +64,12 @@ def add_mines(mines):
     space is not already occupied by a mine.
     """
     counter = 0
-    if counter < mines:
-        for num in range(mines):
-            x = random.randint(0, 6)  # x axis/horizontal
-            y = random.randint(0, 6)  # y axis/vertical
-            if grid[x][y] == 0:
-                grid[x][y] = MINE  # MINE = 9
-                counter = counter + 1
+    while counter < mines:
+        x = random.randint(0, 6)  # x axis/horizontal
+        y = random.randint(0, 6)  # y axis/vertical
+        if grid[x][y] == 0:
+            grid[x][y] = MINE  # MINE = 9
+            counter = counter + 1
  
 
 def show_grid():
@@ -92,6 +91,10 @@ def show_grid():
         print("")
 
 
+
+
+
+
 def ask_coordinates():
     """
     Ask the user if they want to put a flag goes to set_flag function
@@ -102,12 +105,12 @@ def ask_coordinates():
     global setting_flag
     while True:
         try:
-            row = input("Press f to set/remove a flag or guess a row between 1 and 7: ")
+            row = input("Press f to set a flag or guess a row between 1 and 7: ")
             row = row.lower()
             if row == "f":
                 # flag funtion
-                set_flag()
                 setting_flag = True
+                set_flag()
                 break
             else:
                 row = int(row)-1
@@ -155,10 +158,25 @@ def cell_activated(row, column):
     if grid_display[row][column] == FLAG:
         print("There is a flag here!")
         quick_remove(row, column)
-
     elif grid[row][column] == MINE:
         print("Gameover! You hit a mine!!!")
+    else:
+        grid_display[row][column] = check_around(row, column)
+        show_grid()
+        ask_coordinates()
 
+
+def check_around(row, col):
+    for row in range(len(grid)):
+        for col in range(len(grid[0])):
+            count = 0
+            for a in (-1, 1, 1):
+                for b in (-1, 1, 1):
+                    if (0 <= row+a < len(grid) and 
+                        0 <= col+b < len(grid[0]) and 
+                        grid[row+a][col+b] == MINE): 
+                        count = count + 1
+            return count
 
 def set_flag():
     """
@@ -205,7 +223,7 @@ def set_flag():
     if grid_display[row][col_flag] == UNKNOWN:
         grid_display[row][col_flag] = FLAG
     elif grid_display[row][col_flag] == FLAG:
-        print("There is a flag here")
+        print("There is a flag here!")
         quick_remove(row, col_flag)
     else:
         print("You can't put a flag here")
@@ -219,7 +237,7 @@ def set_flag():
 def quick_remove(row, column):
     """
     gives the user the option to remove a flag they hit. also gives 
-    the user not to remove a flag and just goes further with the game
+    the user not to remove a flag and just goes further with the game.
     """
     while True:
         try:
@@ -245,6 +263,7 @@ def main():
     # runs the functions
     ask_mines()
     show_grid()
+    show_sol()
     ask_coordinates()
 
 
