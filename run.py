@@ -163,9 +163,10 @@ def ask_coordinates():
 
 def cell_activated(row, column):
     """
-    Checks if the user row and column input hit a flag or a mine.
+    Checks what the user input hit.
     if it hit a flag quick_remove function gets called.
     if it hit a mine game_over function gets called.
+    if it hit neither the check_around function gets called.
     """
     if grid_display[row][column] == FLAG:
         print("There is a flag here!")
@@ -174,20 +175,20 @@ def cell_activated(row, column):
         print("Gameover! You hit a mine!!!")
         game_over()
     else:
-        grid_display[row][column] = check_around(row, column)
-        show_grid()
-        ask_coordinates()
+        check_around(row, column)
 
 
 def check_around(row, col):
-    for row in range(len(grid)):
-        for col in range(len(grid[0])):
-            count = 0
-            for a in (-1, 0, 1):
-                for b in (-1, 0, 1):
-                    if (0 <= row+a < len(grid) and 0 <= col+b < len(grid[0]) and grid[row+a][col+b] == 9):
-                        count += 1
-            return count
+    count = 0
+    for x in range(row-1, row+2):
+        for y in range(col-1, col+2):
+            if grid[x][y] == MINE:
+                count += 1
+
+    grid_display[row][col] = count
+
+    show_grid()
+    ask_coordinates()
 
 
 def set_flag():
@@ -289,6 +290,7 @@ def game_over():
                 main()
                 break
             elif play_again == 'n':
+                print("Game Over!")
                 break
                 
         # copied from lovesandwiches project
