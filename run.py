@@ -39,7 +39,7 @@ def ask_mines():
     not between 5 and 15 the user will be asked again and 
     raises ValueError if strings cannot be converted into int.
     """
-    while True:    
+    while True:  
         try:
             num_mines = int(input("Choose how many mines you want. choose a number between 5 and 15: \n"))     
 
@@ -179,11 +179,20 @@ def cell_activated(row, column):
 
 
 def check_around(row, col):
+    """
+    Checks around the users input if there is a mine the count
+    goes up by 1 at the end returns the count. row-1 means left
+    of the input row+1 is right. col-1 is above the input col+1
+    is below the input, in this way we check all 8 boxes around the
+    input and the box itself but we already know there is no mine here.
+    if statement for out of bounds.
+    """
     count = 0
     for x in range(row-1, row+2):
         for y in range(col-1, col+2):
-            if grid[x][y] == MINE:
-                count += 1
+            if x >= 0 and x < 7 and y >= 0 and y < 7:
+                if grid[x][y] == MINE:
+                    count += 1
 
     grid_display[row][col] = count
 
