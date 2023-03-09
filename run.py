@@ -4,10 +4,7 @@ import random
 EMPTY = 0
 MINE = 9
 UNKNOWN = -1
-FLAG = 1
-
-# variables
-setting_flag = False  # inactive
+FLAG = -2
 
 # Solution grid that the user can not see
 grid = [
@@ -39,6 +36,9 @@ def ask_mines():
     not between 5 and 15 the user will be asked again and 
     raises ValueError if strings cannot be converted into int.
     """
+    global setting_flag
+    setting_flag = False  # inactive
+
     while True:  
         try:
             num_mines = int(input("Choose how many mines you want. choose a number between 5 and 15: \n"))     
@@ -79,7 +79,7 @@ def show_grid():
     https://www.youtube.com/watch?v=XTT8mXwIGpQ
     https://github.com/wynand1004/Projects/blob/master/Minesweeper/minesweeper.py
     """
-    symbols = {1: "F", -1: "-"}
+    symbols = {-2: "F", -1: "-"}
     for row in range(0, 7):
         for col in range(0, 7):
             value = grid_display[row][col]
@@ -300,6 +300,8 @@ def game_over():
                 break
             elif play_again == 'n':
                 print("Game Over!")
+                global setting_flag
+                setting_flag = True  # Otherwise asks for col if user set a flag
                 break
                 
         # copied from lovesandwiches project
