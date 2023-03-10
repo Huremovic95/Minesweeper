@@ -139,24 +139,27 @@ def ask_coordinates():
         else:
             # row successfully parsed, and we're happy with its value.
             break
-
-    if setting_flag is False:    
-        while True:
-            try:
-                column = int(input("guess a column between 1 and 7: "))-1
+    
+    while True:
+        if setting_flag:
+            # need to break out of the loop if user put f in last input    
+            break
+        
+        try:
+            column = int(input("guess a column between 1 and 7: "))-1
                 
-                if column > 6 or column < 0:
-                    print("Please choose a number between 1 and 7")
-                    continue
-                    
-            # copied from lovesandwiches project
-            except ValueError as e:
-                print(f"Invalid data: {e}, please try again.")
+            if column > 6 or column < 0:
+                print("Please choose a number between 1 and 7")
                 continue
+                    
+        # copied from lovesandwiches project
+        except ValueError as e:
+            print(f"Invalid data: {e}, please try again.")
+            continue
 
-            else:
-                # column successfully parsed, and we're happy with its value.
-                break
+        else:
+            # column successfully parsed, and we're happy with its value.
+            break
 
     cell_activated(row, column)
 
@@ -186,6 +189,7 @@ def check_around(row, col):
     is below the input, in this way we check all 8 boxes around the
     input and the box itself but we already know there is no mine here.
     if statement for out of bounds.
+    reference used: https://www.youtube.com/watch?v=lla6QlAF4HQ
     """
     count = 0
     for x in range(row-1, row+2):
@@ -300,8 +304,6 @@ def game_over():
                 break
             elif play_again == 'n':
                 print("Game Over!")
-                global setting_flag
-                setting_flag = True  # Otherwise asks for col if user set a flag
                 break
                 
         # copied from lovesandwiches project
