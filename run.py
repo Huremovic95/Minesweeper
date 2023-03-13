@@ -198,8 +198,14 @@ def check_around(row, col):
                 if grid[x][y] == MINE:
                     count += 1
 
-    grid_display[row][col] = count
+        return count
 
+    if count == 0:
+        for a in range(row-2, row+3):
+            for b in range(row-2, row+3):
+                if x >= 0 and x < 7 and y >= 0 and y < 7:
+                    grid_display[a][b] = check_around(a, b)
+    
     show_grid()
     ask_coordinates()
 
