@@ -107,9 +107,9 @@ def show_solution():
 def ask_coordinates():
     """
     Ask the user if they want to put a flag goes to set_flag function
-    or otherwise but a row and a column. Because user experience asks
-    between 1 and 7 and puts -1 to the input after that checks if the input
-    is between 0 and 6. Passes row and column to cell_activated function. 
+    or otherwise but a row. Because user experience asks between 1 and 7 
+    and puts -1 to the input after that checks if the input
+    is between 0 and 6. Passes row to ask_column function. 
     """
     while True:
         try:
@@ -138,6 +138,12 @@ def ask_coordinates():
 
 
 def ask_column(row):
+    """
+    Because of user experience flag and row gets asked at the same time, if a flag
+    was put in the grid at the end of the game it asked the column. so in this way there
+    is a solution to this bug. Function askes the column and passes the row and column to
+    the cell_activated function
+    """
     while True:
         try:
             column = int(input("guess a column between 1 and 7: "))-1
@@ -273,7 +279,6 @@ def quick_remove(row, column):
             print(f"Invalid data: {e}, please try again.")
             continue
     
-    setting_flag = False
     show_grid()    
     ask_coordinates()
 
@@ -283,12 +288,35 @@ def game_over():
     When the user hits a mine this function activates asking
     the user if they want to play a new game or not.
     """
+    global grid
+    global grid_display
+    
     show_solution()
     while True:
         try:
             play_again = input("Do you want to play again? y/n: ")
+            play_again = play_again.lower()
 
             if play_again == 'y':
+                grid = [
+                        [0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0]
+                ]
+
+                grid_display = [
+                        [-1, -1, -1, -1, -1, -1, -1],
+                        [-1, -1, -1, -1, -1, -1, -1],
+                        [-1, -1, -1, -1, -1, -1, -1],
+                        [-1, -1, -1, -1, -1, -1, -1],
+                        [-1, -1, -1, -1, -1, -1, -1],
+                        [-1, -1, -1, -1, -1, -1, -1],
+                        [-1, -1, -1, -1, -1, -1, -1],
+                ]
                 main()
                 break
             elif play_again == 'n':
