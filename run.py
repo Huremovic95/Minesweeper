@@ -36,9 +36,6 @@ def ask_mines():
     not between 5 and 15 the user will be asked again and 
     raises ValueError if strings cannot be converted into int.
     """
-    global setting_flag
-    setting_flag = False  # inactive
-
     while True:  
         try:
             num_mines = int(input("Choose how many mines you want. choose a number between 5 and 15: \n"))     
@@ -114,14 +111,12 @@ def ask_coordinates():
     between 1 and 7 and puts -1 to the input after that checks if the input
     is between 0 and 6. Passes row and column to cell_activated function. 
     """
-    global setting_flag
     while True:
         try:
             row = input("Press f to set a flag or guess a row between 1 and 7: ")
             row = row.lower()
             if row == "f":
                 # flag funtion
-                setting_flag = True
                 set_flag()
                 break
             else:
@@ -138,13 +133,12 @@ def ask_coordinates():
 
         else:
             # row successfully parsed, and we're happy with its value.
+            ask_column(row)
             break
-    
+
+
+def ask_column(row):
     while True:
-        if setting_flag:
-            # need to break out of the loop if user put f in last input    
-            break
-        
         try:
             column = int(input("guess a column between 1 and 7: "))-1
                 
@@ -198,13 +192,7 @@ def check_around(row, col):
                 if grid[x][y] == MINE:
                     count += 1
 
-        return count
-
-    if count == 0:
-        for a in range(row-2, row+3):
-            for b in range(row-2, row+3):
-                if x >= 0 and x < 7 and y >= 0 and y < 7:
-                    grid_display[a][b] = check_around(a, b)
+        grid_display[row][col] = count
     
     show_grid()
     ask_coordinates()
@@ -260,8 +248,6 @@ def set_flag():
     else:
         print("You can't put a flag here")
     
-    global setting_flag
-    setting_flag = False
     show_grid()
     ask_coordinates()
 
@@ -271,9 +257,6 @@ def quick_remove(row, column):
     gives the user the option to remove a flag they hit. also gives 
     the user not to remove a flag and just goes further with the game.
     """
-    global setting_flag
-    setting_flag = True
-
     while True:
         try:
             remove_flag = input("Do you want to remove the flag? y/n: ")
