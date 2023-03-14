@@ -45,7 +45,7 @@ def ask_mines():
             print(f"Invalid data: {e}, please try again.")
             continue
 
-        if num_mines > 15 or num_mines < 5:
+        if num_mines > 49 or num_mines < 5:
             print("Please choose a number between 5 and 15")
             continue
         else:
@@ -171,6 +171,8 @@ def cell_activated(row, column):
     if it hit a mine game_over function gets called.
     if it hit neither the check_around function gets called.
     """
+    cell_opened = 0
+
     if grid_display[row][column] == FLAG:
         print("There is a flag here!")
         quick_remove(row, column)
@@ -179,6 +181,8 @@ def cell_activated(row, column):
         game_over()
     else:
         check_around(row, column)
+        cell_opened += 1
+        check_win()
 
 
 def check_around(row, col):
@@ -283,6 +287,18 @@ def quick_remove(row, column):
     ask_coordinates()
 
 
+def check_win():
+    """
+    checks if the user has won the game
+    """
+    global num_mines
+    global cell_opened
+
+    if num_mines + cell_opened == 49:
+        print("You Won!")
+        game_over()
+
+
 def game_over():
     """
     When the user hits a mine this function activates asking
@@ -290,7 +306,7 @@ def game_over():
     """
     global grid
     global grid_display
-    
+
     show_solution()
     while True:
         try:
