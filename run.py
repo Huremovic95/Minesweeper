@@ -32,20 +32,24 @@ grid_display = [
 def ask_mines():
     """
     converts all strings into integers gives the user an option
-    to choose the amount of mines. if the amount of mines is 
-    not between 5 and 15 the user will be asked again and 
+    to choose the amount of mines. if the amount of mines is
+    not between 5 and 15 the user will be asked again and
     raises ValueError if strings cannot be converted into int.
     """
+    global num_mines
+    
     while True:  
         try:
-            num_mines = int(input("Choose how many mines you want. choose a number between 5 and 15: \n"))     
+            num_mines = int(input("Choose how many" 
+                                  "mines you want. choose a"
+                                  " number between 5 and 15: \n"))     
 
         # copied from lovesandwiches project
         except ValueError as e:
             print(f"Invalid data: {e}, please try again.")
             continue
 
-        if num_mines > 49 or num_mines < 5:
+        if num_mines > 15 or num_mines < 5:
             print("Please choose a number between 5 and 15")
             continue
         else:
@@ -113,7 +117,8 @@ def ask_coordinates():
     """
     while True:
         try:
-            row = input("Press f to set a flag or guess a row between 1 and 7: ")
+            row = input("Press f to set a flag"
+                        " or guess a row between 1 and 7: ")
             row = row.lower()
             if row == "f":
                 # flag funtion
@@ -139,10 +144,11 @@ def ask_coordinates():
 
 def ask_column(row):
     """
-    Because of user experience flag and row gets asked at the same time, if a flag
-    was put in the grid at the end of the game it asked the column. so in this way there
-    is a solution to this bug. Function askes the column and passes the row and column to
-    the cell_activated function
+    Because of user experience flag and row gets asked at the same time,
+    if a flag was put in the grid at the end of the game it asked the column.
+    so in this way there is a solution to this bug. 
+    Function askes the column and passes the row and column
+    to the cell_activated function
     """
     while True:
         try:
@@ -171,6 +177,8 @@ def cell_activated(row, column):
     if it hit a mine game_over function gets called.
     if it hit neither the check_around function gets called.
     """
+    global cell_opened
+
     cell_opened = 0
 
     if grid_display[row][column] == FLAG:
@@ -180,9 +188,9 @@ def cell_activated(row, column):
         print("Gameover! You hit a mine!!!")
         game_over()
     else:
-        check_around(row, column)
         cell_opened += 1
         check_win()
+        check_around(row, column)
 
 
 def check_around(row, col):
@@ -203,9 +211,24 @@ def check_around(row, col):
                     count += 1
 
         grid_display[row][col] = count
+        # if count == 0:
+        #     if_zero(row, col)
     
     show_grid()
     ask_coordinates()
+
+
+# def if_zero(row, col):
+
+#     count = 0
+#     for i in range(row-1, row+2):
+#         for j in range(col-1, col+2):
+#             if i >= 0 and i < 7 and j >= 0 and j < 7:
+#                 if grid[i][j] == MINE:
+#                     count += 1
+
+#                 grid_display[row][col] = count
+#                 if_zero(i, j)
 
 
 def set_flag():
@@ -235,7 +258,8 @@ def set_flag():
 
     while True:
         try:
-            col_flag = int(input("The column where you want to put a flag (1-7): "))-1
+            col_flag = int(input("The column where you \
+                want to put a flag (1-7): "))-1
                 
             if col_flag > 6 or col_flag < 0:
                 print("Please choose a number between 1 and 7")
@@ -293,7 +317,7 @@ def check_win():
     """
     global num_mines
     global cell_opened
-
+    print(num_mines + cell_opened)
     if num_mines + cell_opened == 49:
         print("You Won!")
         game_over()
