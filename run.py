@@ -6,6 +6,9 @@ MINE = 9
 UNKNOWN = -1
 FLAG = -2
 
+cell_opened = 0
+game_running = True
+
 # Solution grid that the user can not see
 grid = [
     [0, 0, 0, 0, 0, 0, 0],
@@ -179,8 +182,6 @@ def cell_activated(row, column):
     """
     global cell_opened
 
-    cell_opened = 0
-
     if grid_display[row][column] == FLAG:
         print("There is a flag here!")
         quick_remove(row, column)
@@ -189,8 +190,9 @@ def cell_activated(row, column):
         game_over()
     else:
         cell_opened += 1
-        check_win()
-        check_around(row, column)
+        check_win(cell_opened)
+        if game_running:
+            check_around(row, column)
 
 
 def check_around(row, col):
@@ -311,13 +313,14 @@ def quick_remove(row, column):
     ask_coordinates()
 
 
-def check_win():
+def check_win(cell_opened):
     """
-    checks if the user has won the game
+    checks if the user has won the game. the grid is 7 by 7
+    so if the num of mines and times played hits 49 without
+    hitting a mine the player must have winned
     """
     global num_mines
-    global cell_opened
-    print(num_mines + cell_opened)
+    
     if num_mines + cell_opened == 49:
         print("You Won!")
         game_over()
@@ -330,6 +333,7 @@ def game_over():
     """
     global grid
     global grid_display
+    global game_running
 
     show_solution()
     while True:
@@ -361,6 +365,7 @@ def game_over():
                 break
             elif play_again == 'n':
                 print("Game Over!")
+                game_running = False
                 break
                 
         # copied from lovesandwiches project
