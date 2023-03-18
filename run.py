@@ -260,8 +260,8 @@ def set_flag():
 
     while True:
         try:
-            col_flag = int(input("The column where you \
-                want to put a flag (1-7): "))-1
+            col_flag = int(input("The column where you"
+                                 "want to put a flag (1-7): "))-1
                 
             if col_flag > 6 or col_flag < 0:
                 print("Please choose a number between 1 and 7")
