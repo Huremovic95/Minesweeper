@@ -378,7 +378,6 @@ def main():
     # runs the functions
     ask_mines()
     show_grid()
-    show_solution()
     ask_coordinates()
 
 
