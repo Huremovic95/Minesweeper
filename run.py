@@ -44,7 +44,7 @@ def ask_mines():
     while True:  
         try:
             num_mines = int(input("Choose how many" 
-                                  "mines you want. choose a"
+                                  " mines you want. choose a"
                                   " number between 5 and 15: \n"))     
 
         # copied from lovesandwiches project
@@ -99,7 +99,7 @@ def show_solution():
     """
     Shows the user the grid with the solution/location of the mines
     """
-    symbols = {9: "*"}
+    symbols = {9: "*", 0: "."}
     for row in range(0, 7):
         for col in range(0, 7):
             value = grid[row][col]
@@ -213,24 +213,9 @@ def check_around(row, col):
                     count += 1
 
         grid_display[row][col] = count
-        # if count == 0:
-        #     if_zero(row, col)
     
     show_grid()
     ask_coordinates()
-
-
-# def if_zero(row, col):
-
-#     count = 0
-#     for i in range(row-1, row+2):
-#         for j in range(col-1, col+2):
-#             if i >= 0 and i < 7 and j >= 0 and j < 7:
-#                 if grid[i][j] == MINE:
-#                     count += 1
-
-#                 grid_display[row][col] = count
-#                 if_zero(i, j)
 
 
 def set_flag():
@@ -379,6 +364,6 @@ def main():
     ask_mines()
     show_grid()
     ask_coordinates()
-
+    
 
 main()
