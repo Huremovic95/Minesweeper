@@ -99,7 +99,7 @@ def show_solution():
     """
     Shows the user the grid with the solution/location of the mines
     """
-    symbols = {9: "*", 0: "."}
+    symbols = {9: "X", 0: "."}
     for row in range(0, 7):
         for col in range(0, 7):
             value = grid[row][col]
